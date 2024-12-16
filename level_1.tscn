@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bn2j6r1qp6aap"]
+[gd_scene load_steps=5 format=3 uid="uid://bn2j6r1qp6aap"]
 
+[ext_resource type="PackedScene" uid="uid://i0h7p1oe8qwu" path="res://steve.tscn" id="1_buql4"]
 [ext_resource type="PackedScene" uid="uid://dkggosxuwu1nw" path="res://block.tscn" id="1_cpq6m"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1r3y6"]
@@ -12,7 +13,7 @@ size = Vector3(10, 0.5, 10)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.993037, 0.0542212, 0.104588, -0.0845774, 0.94613, 0.312546, -0.0820074, -0.319215, 0.944127, -0.345855, 3.53935, 6.3324)
+transform = Transform3D(0.993037, 0.0542208, 0.104588, -0.0845774, 0.94613, 0.312546, -0.0820074, -0.319215, 0.944127, -0.345855, 3.53935, 10.2311)
 fov = 102.469
 
 [node name="floor" type="StaticBody3D" parent="."]
@@ -29,11 +30,16 @@ shape = SubResource("BoxShape3D_fpqid")
 transform = Transform3D(1, 0, 0, 0, 0.620423, 0.784268, 0, -0.784268, 0.620423, 0, 6.55524, 0)
 shadow_enabled = true
 
-[node name="block1" parent="." instance=ExtResource("1_cpq6m")]
+[node name="steve" parent="." instance=ExtResource("1_buql4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.16778, 1.25312, -3.47394)
+
+[node name="blocks" type="Node3D" parent="."]
+
+[node name="block1" parent="blocks" instance=ExtResource("1_cpq6m")]
 transform = Transform3D(1, 0, 0, 0, 0.646177, 0.763187, 0, -0.763187, 0.646177, 0, 8.05908, 0)
 
-[node name="block2" parent="." instance=ExtResource("1_cpq6m")]
+[node name="block2" parent="blocks" instance=ExtResource("1_cpq6m")]
 transform = Transform3D(-0.00143115, 0.497882, -0.867244, 0, 0.867245, 0.497882, 0.999999, 0.000712545, -0.00124116, 0, 9.2865, -1.05173)
 
-[node name="block3" parent="." instance=ExtResource("1_cpq6m")]
+[node name="block3" parent="blocks" instance=ExtResource("1_cpq6m")]
 transform = Transform3D(1, 0, 0, 0, 0.191666, 0.98146, 0, -0.98146, 0.191666, 0, 8.39594, -2.37703)
