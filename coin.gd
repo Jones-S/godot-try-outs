@@ -12,4 +12,12 @@ func _process(delta: float) -> void:
 	rotate_y(deg_to_rad(ROTATION_SPEED))
 	
 func _on_body_entered(body: Node3D) -> void:
+	# disable collecting the money twice by disabling the collision layers
+	set_collision_layer_value(3, false)
+	set_collision_mask_value(1, false)
+	print("cash money! 💰")
+	$AnimationPlayer.play("bounce")
+
+# event triggered by the Animation within coin
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	queue_free()
