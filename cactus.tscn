@@ -7,6 +7,8 @@
 size = Vector3(0.791992, 3.2588, 2.013)
 
 [node name="Cactus" type="Area3D"]
+collision_layer = 4
+collision_mask = 13
 script = ExtResource("1_315ad")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]

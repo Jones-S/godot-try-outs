@@ -13,6 +13,7 @@ material = SubResource("StandardMaterial3D_2iubx")
 [sub_resource type="BoxShape3D" id="BoxShape3D_y2rgd"]
 
 [node name="Steve" type="CharacterBody3D"]
+collision_mask = 30
 script = ExtResource("1_qi3n8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -35,3 +36,4 @@ transform = Transform3D(1, 0, 0, 0, 0.953963, 0.299923, 0, -0.299923, 0.953963, 
 current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
+collision_mask = 2
