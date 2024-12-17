@@ -1,16 +1,36 @@
-[gd_scene load_steps=8 format=3 uid="uid://bn2j6r1qp6aap"]
+[gd_scene load_steps=13 format=3 uid="uid://bn2j6r1qp6aap"]
 
 [ext_resource type="PackedScene" uid="uid://i0h7p1oe8qwu" path="res://steve.tscn" id="1_buql4"]
 [ext_resource type="PackedScene" uid="uid://dkggosxuwu1nw" path="res://block.tscn" id="1_cpq6m"]
 [ext_resource type="Texture2D" uid="uid://dfft783pdkefd" path="res://icon.svg" id="3_uwewu"]
 [ext_resource type="Script" path="res://icon.gd" id="4_sjxen"]
 [ext_resource type="PackedScene" uid="uid://8lfwfqqar2t3" path="res://coin.tscn" id="5_lhyb3"]
+[ext_resource type="PackedScene" uid="uid://cgyhbtmk6r8t1" path="res://cactus.tscn" id="6_kb8hh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yw687"]
+albedo_color = Color(0.740931, 0.777896, 0.978677, 1)
+metallic = 0.2
+roughness = 0.6
 
 [sub_resource type="BoxMesh" id="BoxMesh_1r3y6"]
+material = SubResource("StandardMaterial3D_yw687")
 size = Vector3(10, 0.5, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fpqid"]
 size = Vector3(10, 0.5, 10)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iq60r"]
+sky_top_color = Color(0.276493, 0.444155, 0.726415, 1)
+sky_horizon_color = Color(0.708616, 0.611505, 0.775137, 1)
+ground_bottom_color = Color(0.0842445, 0.155824, 0.363194, 1)
+ground_horizon_color = Color(0.724734, 0.612083, 0.731343, 1)
+
+[sub_resource type="Sky" id="Sky_ydrj5"]
+sky_material = SubResource("ProceduralSkyMaterial_iq60r")
+
+[sub_resource type="Environment" id="Environment_s5oxd"]
+background_mode = 2
+sky = SubResource("Sky_ydrj5")
 
 [node name="Level1" type="Node3D"]
 
@@ -53,3 +73,9 @@ script = ExtResource("4_sjxen")
 
 [node name="Coin1" parent="." instance=ExtResource("5_lhyb3")]
 transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 3.21799, 1.20188, 0)
+
+[node name="Cactus" parent="." instance=ExtResource("6_kb8hh")]
+transform = Transform3D(0.69174, 0, -0.722147, 0, 1, 0, 0.722147, 0, 0.69174, -2.66424, 0, 3.00157)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_s5oxd")

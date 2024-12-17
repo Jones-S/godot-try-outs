@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgyhbtmk6r8t1"]
+
+[ext_resource type="Script" path="res://cactus.gd" id="1_315ad"]
+[ext_resource type="ArrayMesh" uid="uid://8m7p6lhie2bp" path="res://Assets/Models/cactus_l.res" id="1_gcxv3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f4q4c"]
+size = Vector3(0.791992, 3.2588, 2.013)
+
+[node name="Cactus" type="Area3D"]
+script = ExtResource("1_315ad")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_gcxv3")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0170898, 1.62949, -0.165375)
+shape = SubResource("BoxShape3D_f4q4c")
