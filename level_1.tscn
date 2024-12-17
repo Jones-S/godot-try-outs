@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bn2j6r1qp6aap"]
+[gd_scene load_steps=11 format=3 uid="uid://bn2j6r1qp6aap"]
 
 [ext_resource type="PackedScene" uid="uid://i0h7p1oe8qwu" path="res://steve.tscn" id="1_buql4"]
 [ext_resource type="PackedScene" uid="uid://dkggosxuwu1nw" path="res://block.tscn" id="1_cpq6m"]
+[ext_resource type="Script" path="res://level_1.gd" id="1_r7x4k"]
 [ext_resource type="Texture2D" uid="uid://dfft783pdkefd" path="res://icon.svg" id="3_uwewu"]
 [ext_resource type="Script" path="res://icon.gd" id="4_sjxen"]
 [ext_resource type="PackedScene" uid="uid://8lfwfqqar2t3" path="res://coin.tscn" id="5_lhyb3"]
@@ -13,6 +14,7 @@
 size = Vector3(80.2613, 8, 116.36)
 
 [node name="Level1" type="Node3D"]
+script = ExtResource("1_r7x4k")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.620423, 0.784268, 0, -0.784268, 0.620423, 0, 6.55524, 0)
@@ -37,9 +39,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875444, 0)
 texture = ExtResource("3_uwewu")
 script = ExtResource("4_sjxen")
 
-[node name="Coin1" parent="." instance=ExtResource("5_lhyb3")]
-transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 3.21799, 0.683255, 0)
-
 [node name="Cactus" parent="." instance=ExtResource("6_kb8hh")]
 transform = Transform3D(0.69174, 0, -0.722147, 0, 1, 0, 0.722147, 0, 0.69174, -2.66424, 0, 3.00157)
 
@@ -61,5 +60,31 @@ collision_layer = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FallZone"]
 shape = SubResource("BoxShape3D_atwe6")
+
+[node name="Coins" type="Node3D" parent="."]
+
+[node name="Coin1" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 3.21799, 1.62237, 0)
+
+[node name="Coin5" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 9.21799, 6.62237, -1)
+
+[node name="Coin6" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 9.21799, 6.62237, -3)
+
+[node name="Coin7" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 9.21799, 6.62237, -5)
+
+[node name="Coin8" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 9.21799, 8.62237, -13)
+
+[node name="Coin2" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 0.980722, 2.62237, 6.87314)
+
+[node name="Coin4" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, -3.01928, 2.62237, 6.87314)
+
+[node name="Coin3" parent="Coins" instance=ExtResource("5_lhyb3")]
+transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, -1.01928, 2.62237, 6.87314)
 
 [connection signal="body_entered" from="FallZone" to="Steve" method="_on_fall_zone_body_entered"]

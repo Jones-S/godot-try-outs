@@ -1,6 +1,7 @@
 extends Area3D
 
 const ROTATION_SPEED = 2 # Number of degrees of rotation per frame
+var level_1 = preload("res://level_1.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,8 +16,13 @@ func _on_body_entered(body: Node3D) -> void:
 	# disable collecting the money twice by disabling the collision layers
 	set_collision_layer_value(3, false)
 	set_collision_mask_value(1, false)
-	print("cash money! 💰")
+	
+	print("cash money! 💰", Global.coins)
 	$AnimationPlayer.play("bounce")
+	
+	Global.coins += 1
+	if Global.coins >= Global.totalCoins:
+		get_tree().change_scene_to_file("res://level_1.tscn")
 
 # event triggered by the Animation within coin
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
