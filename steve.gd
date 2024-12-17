@@ -27,6 +27,11 @@ func _physics_process(delta: float) -> void:
 	
 	# new Vector3 direction, taking user arrows and camera rotation into account
 	var direction = ($Camera_Controller.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	# rotate character mesh to orient away from camera
+	if input_dir != Vector2(0,0):
+		$MeshInstance3D.rotation_degrees.y = $Camera_Controller.rotation_degrees.y - rad_to_deg(input_dir.angle()) + -90
+		
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
