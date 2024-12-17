@@ -4,6 +4,7 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 10
 
+var xform : Transform3D
 
 func _physics_process(delta: float) -> void:
 	# rotate cam
@@ -32,6 +33,15 @@ func _physics_process(delta: float) -> void:
 	if input_dir != Vector2(0,0):
 		$MeshInstance3D.rotation_degrees.y = $Camera_Controller.rotation_degrees.y - rad_to_deg(input_dir.angle()) + -90
 		
+	# rotate character to align with floor
+	if is_on_floor() and input_dir != Vector2(0,0): # check if on floor and if is moving
+		align_with_floor($RayCast3D.get_collision_normal())
+		global_transform = global_transform.interpolate_with(xform, 0.3)
+	elif not is_on_floor():
+		align_with_floor(Vector3.UP)
+		global_transform = global_transform.interpolate_with(xform, 0.3)
+	
+	# update velocity and move character
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
@@ -43,3 +53,10 @@ func _physics_process(delta: float) -> void:
 	# make camera controller match position of myself
 	# needs to be lower than move and slide so we dont have a lag
 	$Camera_Controller.position = lerp($Camera_Controller.position, position, 0.15)
+	
+	
+func align_with_floor(floor_normal):
+	xform = global_transform
+	xform.basis.y = floor_normal
+	xform.basis.x = -xform.basis.z.cross(floor_normal)
+	xform.basis = xform.basis.orthonormalized()
