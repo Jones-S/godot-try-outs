@@ -60,3 +60,7 @@ func align_with_floor(floor_normal):
 	xform.basis.y = floor_normal
 	xform.basis.x = -xform.basis.z.cross(floor_normal)
 	xform.basis = xform.basis.orthonormalized()
+
+
+func _on_fall_zone_body_entered(body: Node3D) -> void:
+	get_tree().change_scene_to_file("res://level_1.tscn") # go to top level of game (gettree) and then get the level1 scene
