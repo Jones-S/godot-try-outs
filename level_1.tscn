@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bn2j6r1qp6aap"]
+[gd_scene load_steps=13 format=3 uid="uid://bn2j6r1qp6aap"]
 
 [ext_resource type="PackedScene" uid="uid://i0h7p1oe8qwu" path="res://steve.tscn" id="1_buql4"]
 [ext_resource type="PackedScene" uid="uid://dkggosxuwu1nw" path="res://block.tscn" id="1_cpq6m"]
@@ -10,6 +10,7 @@
 [ext_resource type="Environment" uid="uid://cvip7j4b6eny1" path="res://Resources/level_1_environment.tres" id="7_0ua65"]
 [ext_resource type="MeshLibrary" uid="uid://d2qyn1kmk8f00" path="res://Resources/world-blocks-v1.tres" id="8_fu2rh"]
 [ext_resource type="PackedScene" uid="uid://dbql4242x4j7y" path="res://hud.tscn" id="10_afhqr"]
+[ext_resource type="PackedScene" uid="uid://cmnme61fhtyut" path="res://trebuchet.tscn" id="11_ye25v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_atwe6"]
 size = Vector3(80.2613, 8, 116.36)
@@ -22,7 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 0.620423, 0.784268, 0, -0.784268, 0.620423, 
 shadow_enabled = true
 
 [node name="Steve" parent="." instance=ExtResource("1_buql4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.32218, 3.30941, 6.00276)
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -2.32218, 1.30941, 8.00276)
 
 [node name="Blocks" type="Node3D" parent="."]
 
@@ -97,5 +98,8 @@ transform = Transform3D(0.391245, 0, -0.920286, 0, 1, 0, 0.920286, 0, 0.391245, 
 hud = NodePath("../../HUD")
 
 [node name="HUD" parent="." instance=ExtResource("10_afhqr")]
+
+[node name="Trebuchet" parent="." instance=ExtResource("11_ye25v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1)
 
 [connection signal="body_entered" from="FallZone" to="Steve" method="_on_fall_zone_body_entered"]
