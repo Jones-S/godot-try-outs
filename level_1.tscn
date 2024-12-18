@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cgyhbtmk6r8t1" path="res://cactus.tscn" id="6_kb8hh"]
 [ext_resource type="Environment" uid="uid://cvip7j4b6eny1" path="res://Resources/level_1_environment.tres" id="7_0ua65"]
 [ext_resource type="MeshLibrary" uid="uid://d2qyn1kmk8f00" path="res://Resources/world-blocks-v1.tres" id="8_fu2rh"]
-[ext_resource type="PackedScene" uid="uid://dbql4242x4j7y" path="res://Resources/hud.tscn" id="10_afhqr"]
+[ext_resource type="PackedScene" uid="uid://dbql4242x4j7y" path="res://hud.tscn" id="10_afhqr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_atwe6"]
 size = Vector3(80.2613, 8, 116.36)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dbql4242x4j7y"]
 
 [ext_resource type="Texture2D" uid="uid://bark5a7armwth" path="res://Assets/Images/coins.png" id="1_5arej"]
-[ext_resource type="Script" path="res://Resources/hud.gd" id="1_5vpxb"]
+[ext_resource type="Script" path="res://hud.gd" id="1_5vpxb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bbr4o"]
 
