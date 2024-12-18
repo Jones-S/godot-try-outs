@@ -23,7 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 0.620423, 0.784268, 0, -0.784268, 0.620423, 
 shadow_enabled = true
 
 [node name="Steve" parent="." instance=ExtResource("1_buql4")]
-transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -2.32218, 1.30941, 8.00276)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.32218, 1.30941, 7.00276)
 
 [node name="Blocks" type="Node3D" parent="."]
 
