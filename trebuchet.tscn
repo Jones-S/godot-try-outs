@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://cmnme61fhtyut"]
+[gd_scene load_steps=17 format=3 uid="uid://cmnme61fhtyut"]
 
 [ext_resource type="ArrayMesh" uid="uid://chaq0yoteoho5" path="res://Assets/Models/onager-base.res" id="1_nr6ra"]
+[ext_resource type="Script" path="res://trebuchet.gd" id="1_sycnu"]
 [ext_resource type="ArrayMesh" uid="uid://vil67ok8xtc3" path="res://Assets/Models/onager-arm.res" id="2_rxcr7"]
 [ext_resource type="ArrayMesh" uid="uid://cafucq8gawcfg" path="res://Assets/Models/onager-rock.res" id="3_ohxah"]
 [ext_resource type="Texture2D" uid="uid://mncj3wcvfvrk" path="res://Assets/Images/flare00.png" id="3_r6n0e"]
@@ -18,6 +19,7 @@ radius = 0.685246
 transparency = 1
 cull_mode = 2
 shading_mode = 0
+vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("3_r6n0e")
 billboard_mode = 3
 billboard_keep_scale = true
@@ -26,7 +28,6 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4e20p"]
-lifetime_randomness = 0.5
 emission_shape = 1
 emission_sphere_radius = 0.5
 direction = Vector3(0, 0, 0)
@@ -34,20 +35,28 @@ initial_velocity_min = 3.0
 initial_velocity_max = 6.0
 scale_min = 0.2
 scale_max = 0.5
+color = Color(1.5, 0.7, 0.8, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_lmadt"]
 size = Vector2(0.3, 0.32)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_52suu"]
-size = Vector3(0.40918, 0.743408, 7.05908)
+size = Vector3(0.40918, 0.355591, 7.05908)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_twvne"]
-size = Vector3(1, 1.85535, 1)
+size = Vector3(1, 1.85535, 0.148438)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lgxj3"]
 size = Vector3(1, 0.522949, 0.594238)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_kwil7"]
+size = Vector3(1, 1.17168, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68j5t"]
+size = Vector3(5.66406, 4.60107, 11.3688)
+
 [node name="Trebuchet" type="Node3D"]
+script = ExtResource("1_sycnu")
 
 [node name="Body" type="StaticBody3D" parent="."]
 collision_layer = 4
@@ -77,10 +86,11 @@ shape = SubResource("SphereShape3D_yg4h3")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Rock"]
 material_override = SubResource("StandardMaterial3D_sv5xx")
+emitting = false
 amount = 120
-lifetime = 1.3
+one_shot = true
 explosiveness = 0.34
-randomness = 0.63
+randomness = 0.66
 process_material = SubResource("ParticleProcessMaterial_4e20p")
 draw_pass_1 = SubResource("QuadMesh_lmadt")
 
@@ -95,11 +105,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62117, 0.567458)
 mesh = ExtResource("2_rxcr7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Arm"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74946, 4.34748)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55555, 4.34748)
 shape = SubResource("BoxShape3D_52suu")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Arm"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.12741, 8.28273)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.12741, 7.80226)
 shape = SubResource("BoxShape3D_twvne")
 
 [node name="HingeJoint3D" type="HingeJoint3D" parent="."]
@@ -108,7 +118,6 @@ node_a = NodePath("../Body")
 node_b = NodePath("../Arm")
 angular_limit/upper = -1.80991
 angular_limit/lower = -3.14159
-motor/enable = true
 motor/target_velocity = 3.08033
 motor/max_impulse = 892.3
 
@@ -119,3 +128,18 @@ collision_mask = 15
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ArmBlocker"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.18139, 0.296406)
 shape = SubResource("BoxShape3D_lgxj3")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="ArmBlocker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.610191, 5.1152)
+shape = SubResource("BoxShape3D_kwil7")
+
+[node name="TriggerArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.17273, 0)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0593967, -2.86821, 3.12149)
+shape = SubResource("BoxShape3D_68j5t")
+
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_area_body_entered"]
+[connection signal="body_exited" from="TriggerArea" to="." method="_on_trigger_area_body_exited"]
