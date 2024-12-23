@@ -38,10 +38,9 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-
-
 	# Handle Jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
+		print("Jump")
 		velocity.y = JUMP_VELOCITY * jump_direction
 	
 	# Handle Sprint.
@@ -49,9 +48,14 @@ func _physics_process(delta):
 		speed = SPRINT_SPEED
 	else:
 		speed = WALK_SPEED
+	
+	if Input.is_action_just_pressed("sprint"):
+		print (head.transform.basis)
+		print (transform.basis)
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	
 	
 	# rotate character to align with floor
 	#if is_on_floor() and input_dir != Vector2(0,0): # check if on floor and if is moving
@@ -64,6 +68,7 @@ func _physics_process(delta):
 	
 	# change moving direction to where the head is facing.
 	var direction = (head.transform.basis * transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
 	if is_on_floor():
 		if direction:
 			velocity.x = direction.x * speed
@@ -95,11 +100,12 @@ func _on_fall_zone_body_entered(body: Node3D) -> void:
 	
 	
 func gravity_changed() -> void:
-	self.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
-	$Head/Camera3D.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
+	self.rotate(Vector3(1, 0, 0), deg_to_rad(180))
+	#$Head/Camera3D.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
 
 
-	jump_direction = -1
+	jump_direction = -jump_direction
+	set_up_direction(Vector3(0,jump_direction,0))
 	velocity.y = 1
 	move_and_slide()
 	
