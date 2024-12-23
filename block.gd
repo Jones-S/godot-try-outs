@@ -11,4 +11,4 @@ func _process(delta: float) -> void:
 func gravity_changed() -> void:
 	print("Gravity inverted for ", self.name)
 	# apply a very small force to the rock, so that it starts following the new gravity vector
-	self.apply_central_impulse(Vector3(0, 0.00001, 0))
+	self.apply_central_impulse(Vector3(0, 0, 0.000001))

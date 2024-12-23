@@ -22,11 +22,11 @@ var jump_direction = 1
 
 
 func _ready():
-	print("jumpdir", jump_direction)
 	add_to_group('affected_by_gravity_change')
 	gravity = PhysicsServer3D.area_get_param(get_viewport().find_world_3d().space, PhysicsServer3D.AREA_PARAM_GRAVITY)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_up_direction(Vector3(0,jump_direction,0))
+	print("jump dir: ", jump_direction, "gravity: ", gravity )
 
 
 func _unhandled_input(event):
@@ -102,10 +102,11 @@ func _on_fall_zone_body_entered(body: Node3D) -> void:
 	get_tree().change_scene_to_file("res://level_1.tscn") # go to top level of game (gettree) and then get the level1 scene
 	
 func gravity_changed() -> void:
+	print("Steves Gravity changed 🤢")
 	self.rotate(Vector3(1, 0, 0), deg_to_rad(180))
 
 	jump_direction = -jump_direction
 	set_up_direction(Vector3(0,jump_direction,0))
-	velocity.y = 1
+	velocity.y = jump_direction
 	move_and_slide()
 	

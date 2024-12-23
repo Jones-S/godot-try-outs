@@ -18,7 +18,7 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_5hk7c"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_y2rgd"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g6iub"]
 
 [node name="Steve" type="CharacterBody3D"]
 collision_mask = 30
@@ -40,7 +40,7 @@ mesh = SubResource("CylinderMesh_5hk7c")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_y2rgd")
+shape = SubResource("CapsuleShape3D_g6iub")
 
 [node name="CamOrigin" type="Node3D" parent="."]
 

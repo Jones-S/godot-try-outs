@@ -135,6 +135,6 @@ spot_range = 7.34
 spot_angle = 44.31
 
 [node name="GravitySwitch" parent="." instance=ExtResource("12_t7kes")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.01666, -0.199, 8.32819)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.937323, -0.199, -5.21353)
 
 [connection signal="body_entered" from="FallZone" to="Steve" method="_on_fall_zone_body_entered"]
