@@ -2,6 +2,13 @@ extends Area3D
 
 const ROTATION_SPEED := 1.2
 
+@onready var material = $MeshInstance3D.material_override as ShaderMaterial
+
+var param_value = 0.0
+var increasing = true
+var SPEED = 0.6  # Adjust speed of the change.
+var SHADER_PARAM = "DissolveHeight"
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -10,6 +17,21 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	rotate_y(deg_to_rad(ROTATION_SPEED))
+	
+	# Adjust the parameter value
+	if increasing:
+		param_value += SPEED * delta
+		if param_value >= 1.5:
+			param_value = 1.5
+			increasing = false
+	else:
+		param_value -= SPEED * delta
+		if param_value <= 0.0:
+			param_value = 0.0
+			increasing = true
+	
+	# Set the shader parameter
+	material.set_shader_parameter(SHADER_PARAM, param_value)
 
 func _on_body_entered(body: Node3D) -> void:
 	Global.change_world_orientation()
