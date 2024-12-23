@@ -1,14 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://i0h7p1oe8qwu"]
+[gd_scene load_steps=9 format=3 uid="uid://i0h7p1oe8qwu"]
 
 [ext_resource type="Script" path="res://steve.gd" id="1_qi3n8"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2iubx"]
-albedo_color = Color(1, 0.172549, 0.466667, 1)
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wtqif"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_cy3xh"]
-material = SubResource("StandardMaterial3D_2iubx")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0kiw"]
+albedo_color = Color(0.235732, 0.235732, 0.235732, 1)
+metallic = 0.6
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_vupwm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_200rd"]
+albedo_color = Color(1.5, 1.5, 1.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5s1h7"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5hk7c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y2rgd"]
 
@@ -17,11 +25,19 @@ collision_mask = 30
 script = ExtResource("1_qi3n8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_cy3xh")
+mesh = SubResource("CapsuleMesh_wtqif")
+surface_material_override/0 = SubResource("StandardMaterial3D_m0kiw")
 
 [node name="Face" type="MeshInstance3D" parent="MeshInstance3D"]
 transform = Transform3D(0.68, 0, 0, 0, -8.74228e-09, 0.68, 0, -0.2, -2.97237e-08, 0, 0.297488, -0.36353)
 mesh = SubResource("CylinderMesh_vupwm")
+surface_material_override/0 = SubResource("StandardMaterial3D_200rd")
+
+[node name="Eye" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.582526, 0, 0, 0, -2.36041e-09, 0.179995, 0, -0.054, -7.86782e-09, 0, 0.280819, -0.524745)
+material_override = SubResource("StandardMaterial3D_5s1h7")
+mesh = SubResource("CylinderMesh_5hk7c")
+skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_y2rgd")

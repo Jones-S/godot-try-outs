@@ -72,6 +72,10 @@ collision_layer = 16
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FallZone"]
 shape = SubResource("BoxShape3D_atwe6")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="FallZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 47.7849, 0)
+shape = SubResource("BoxShape3D_atwe6")
+
 [node name="Coins" type="Node3D" parent="."]
 
 [node name="Coin1" parent="Coins" node_paths=PackedStringArray("hud") instance=ExtResource("5_lhyb3")]
@@ -131,6 +135,6 @@ spot_range = 7.34
 spot_angle = 44.31
 
 [node name="GravitySwitch" parent="." instance=ExtResource("12_t7kes")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.82254, -0.199, 6.96117)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.01666, -0.199, 8.32819)
 
 [connection signal="body_entered" from="FallZone" to="Steve" method="_on_fall_zone_body_entered"]
