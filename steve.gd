@@ -17,8 +17,8 @@ var gravity = 9.8
 var jump_direction = 1
 
 
-@onready var head = $Head
-@onready var camera = $Head/Camera3D
+@onready var pivot = $CamOrigin
+@onready var camera = $CamOrigin/SpringArm3D/Camera3D
 
 
 func _ready():
@@ -29,9 +29,9 @@ func _ready():
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
-		head.rotate_y(-event.relative.x * SENSITIVITY)
-		camera.rotate_x(-event.relative.y * SENSITIVITY)
-		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-40), deg_to_rad(60))
+		rotate_y((-event.relative.x) * jump_direction * SENSITIVITY)
+		pivot.rotate_x(-event.relative.y * SENSITIVITY)
+		pivot.rotation.x = clamp(pivot.rotation.x, deg_to_rad(-90), deg_to_rad(45))
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -50,7 +50,7 @@ func _physics_process(delta):
 		speed = WALK_SPEED
 	
 	if Input.is_action_just_pressed("sprint"):
-		print (head.transform.basis)
+		print (pivot.transform.basis)
 		print (transform.basis)
 
 	# Get the input direction and handle the movement/deceleration.
@@ -66,8 +66,8 @@ func _physics_process(delta):
 		#global_transform = global_transform.interpolate_with(xform, 0.3)
 
 	
-	# change moving direction to where the head is facing.
-	var direction = (head.transform.basis * transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	# change moving direction to where the pivot is facing.
+	var direction = (pivot.transform.basis * transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if is_on_floor():
 		if direction:
