@@ -9,6 +9,8 @@ render_priority = 0
 shader = ExtResource("2_rg6wu")
 shader_parameter/Base_Color = Color(1, 1, 1, 1)
 shader_parameter/DissolveHeight = 0.61
+shader_parameter/Noise_Scale = 0.89
+shader_parameter/Noise_Size = 21.45
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jxcob"]
 size = Vector3(1, 1.39526, 1.30249)
