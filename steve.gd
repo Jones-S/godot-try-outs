@@ -1,11 +1,13 @@
 extends CharacterBody3D
 
-
 const SPEED = 5.0
 const JUMP_VELOCITY = 10
+var jump_direction = 1
 
 var xform : Transform3D
 
+func _ready() -> void:
+	add_to_group('affected_by_gravity_change')
 
 func _physics_process(delta: float) -> void:
 	# rotate cam
@@ -21,7 +23,7 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_VELOCITY * jump_direction
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -65,3 +67,15 @@ func align_with_floor(floor_normal):
 
 func _on_fall_zone_body_entered(body: Node3D) -> void:
 	get_tree().change_scene_to_file("res://level_1.tscn") # go to top level of game (gettree) and then get the level1 scene
+
+func gravity_changed() -> void:
+	jump_direction = -1
+	velocity.y = 1
+	move_and_slide()
+	invert_camera()
+	
+func invert_camera() -> void:
+	print('ratote 🔄')
+	self.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
+	$Camera_Controller.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
+	

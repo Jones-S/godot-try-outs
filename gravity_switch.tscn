@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://b121cwht54ife"]
+
+[ext_resource type="Script" path="res://gravity_switch.gd" id="1_f4e5x"]
+[ext_resource type="ArrayMesh" uid="uid://dwy78xcas82qo" path="res://Assets/Models/arrows-v1.obj" id="1_mmlq4"]
+[ext_resource type="Shader" uid="uid://duxsaka1fbydi" path="res://glow.tres" id="2_rg6wu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iu6mm"]
+render_priority = 0
+shader = ExtResource("2_rg6wu")
+shader_parameter/Base_Color = Color(1, 1, 1, 1)
+shader_parameter/DissolveHeight = 0.61
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jxcob"]
+size = Vector3(1, 1.39526, 1.30249)
+
+[node name="GravitySwitch" type="Area3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_f4e5x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235251, 0.572238, -0.0818681)
+material_override = SubResource("ShaderMaterial_iu6mm")
+mesh = ExtResource("1_mmlq4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235251, 1.20792, 0.00833708)
+shape = SubResource("BoxShape3D_jxcob")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

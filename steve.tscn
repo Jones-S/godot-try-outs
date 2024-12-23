@@ -30,7 +30,7 @@ shape = SubResource("BoxShape3D_y2rgd")
 top_level = true
 
 [node name="Camera_Target" type="Node3D" parent="Camera_Controller"]
-transform = Transform3D(1, 0, 0, 0, 0.861629, 0.507538, 0, -0.507538, 0.861629, 0, 4.575, 5.635)
+transform = Transform3D(1, 0, 0, 0, 0.995396, -0.0958457, 0, 0.0958457, 0.995396, 0, 1.765, 5.635)
 
 [node name="Camera3D" type="Camera3D" parent="Camera_Controller/Camera_Target"]
 current = true

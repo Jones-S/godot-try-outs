@@ -12,6 +12,8 @@ func _ready() -> void:
 	pass # Replace with function body.
 	initial_rock_position = rock.global_transform.origin
 	print (initial_rock_position)
+	
+	add_to_group('affected_by_gravity_change')
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,7 +35,10 @@ func _on_trigger_area_body_entered(body: Node3D) -> void:
 		#await get_tree().create_timer(2.0).timeout
 		#particles.emitting = false
 	
-	
+
+func gravity_changed() -> void:
+	# apply a very small force to the rock, so that it starts following the new gravity vector
+	rock.apply_central_impulse(Vector3(0, 0.00001, 0))
 
 
 func _on_trigger_area_body_exited(body: Node3D) -> void:
