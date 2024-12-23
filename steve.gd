@@ -1,63 +1,88 @@
 extends CharacterBody3D
 
-const SPEED = 5.0
-const JUMP_VELOCITY = 10
-var jump_direction = 1
-
 var xform : Transform3D
 
-func _ready() -> void:
-	add_to_group('affected_by_gravity_change')
+var speed
+const WALK_SPEED = 5.0
+const SPRINT_SPEED = 8.0
+const JUMP_VELOCITY = 12
+const SENSITIVITY = 0.004
 
-func _physics_process(delta: float) -> void:
-	# rotate cam
-	if Input.is_action_just_pressed("cam_left"):
-		$Camera_Controller.rotate_y(deg_to_rad(30))
-	
-	if Input.is_action_just_pressed("cam_right"):
-		$Camera_Controller.rotate_y(deg_to_rad(-30))
-	
+#fov variables
+const BASE_FOV = 75.0
+const FOV_CHANGE = 1.5
+
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = 9.8
+var jump_direction = 1
+
+
+@onready var head = $Head
+@onready var camera = $Head/Camera3D
+
+
+func _ready():
+	add_to_group('affected_by_gravity_change')
+	gravity = PhysicsServer3D.area_get_param(get_viewport().find_world_3d().space, PhysicsServer3D.AREA_PARAM_GRAVITY)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _unhandled_input(event):
+	if event is InputEventMouseMotion:
+		head.rotate_y(-event.relative.x * SENSITIVITY)
+		camera.rotate_x(-event.relative.y * SENSITIVITY)
+		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-40), deg_to_rad(60))
+
+func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+
+
+	# Handle Jump.
+	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY * jump_direction
+	
+	# Handle Sprint.
+	if Input.is_action_pressed("sprint"):
+		speed = SPRINT_SPEED
+	else:
+		speed = WALK_SPEED
 
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	
-	# new Vector3 direction, taking user arrows and camera rotation into account
-	var direction = ($Camera_Controller.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	# rotate character mesh to orient away from camera
-	if input_dir != Vector2(0,0):
-		$MeshInstance3D.rotation_degrees.y = $Camera_Controller.rotation_degrees.y - rad_to_deg(input_dir.angle()) + -90
-		
 	# rotate character to align with floor
-	if is_on_floor() and input_dir != Vector2(0,0): # check if on floor and if is moving
-		align_with_floor($RayCast3D.get_collision_normal())
-		global_transform = global_transform.interpolate_with(xform, 0.3)
-	elif not is_on_floor():
-		align_with_floor(Vector3.UP)
-		global_transform = global_transform.interpolate_with(xform, 0.3)
+	#if is_on_floor() and input_dir != Vector2(0,0): # check if on floor and if is moving
+		#align_with_floor($RayCast3D.get_collision_normal())
+		#global_transform = global_transform.interpolate_with(xform, 0.3)
+	#elif not is_on_floor():
+		#align_with_floor(Vector3.UP)
+		#global_transform = global_transform.interpolate_with(xform, 0.3)
+
 	
-	# update velocity and move character
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+	# change moving direction to where the head is facing.
+	var direction = (head.transform.basis * transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if is_on_floor():
+		if direction:
+			velocity.x = direction.x * speed
+			velocity.z = direction.z * speed
+		else:
+			velocity.x = lerp(velocity.x, direction.x * speed, delta * 7.0)
+			velocity.z = lerp(velocity.z, direction.z * speed, delta * 7.0)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = lerp(velocity.x, direction.x * speed, delta * 3.0)
+		velocity.z = lerp(velocity.z, direction.z * speed, delta * 3.0)
+	
+	
+	# FOV
+	var velocity_clamped = clamp(velocity.length(), 0.5, SPRINT_SPEED * 2)
+	var target_fov = BASE_FOV + FOV_CHANGE * velocity_clamped
+	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
+	
 	move_and_slide()
-	
-	# make camera controller match position of myself
-	# needs to be lower than move and slide so we dont have a lag
-	$Camera_Controller.position = lerp($Camera_Controller.position, position, 0.15)
-	
-	
+
 func align_with_floor(floor_normal):
 	xform = global_transform
 	xform.basis.y = floor_normal
@@ -67,15 +92,14 @@ func align_with_floor(floor_normal):
 
 func _on_fall_zone_body_entered(body: Node3D) -> void:
 	get_tree().change_scene_to_file("res://level_1.tscn") # go to top level of game (gettree) and then get the level1 scene
-
+	
+	
 func gravity_changed() -> void:
+	self.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
+	$Head/Camera3D.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
+
+
 	jump_direction = -1
 	velocity.y = 1
 	move_and_slide()
-	invert_camera()
-	
-func invert_camera() -> void:
-	print('ratote 🔄')
-	self.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
-	$Camera_Controller.rotate_object_local(Vector3(1, 0, 0), deg_to_rad(180))
 	
